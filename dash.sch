@@ -909,7 +909,6 @@ Wire Wire Line
 Connection ~ 900  3300
 NoConn ~ 3300 2700
 NoConn ~ 3300 2800
-NoConn ~ 3300 2900
 NoConn ~ 3300 3950
 NoConn ~ 3300 4050
 NoConn ~ 3300 4500
@@ -934,4 +933,9 @@ F 3 "" H 5550 2300 50  0000 C CNN
 	1    5550 2300
 	1    0    0    -1  
 $EndComp
+Wire Wire Line
+	3300 2900 5000 2900
+Wire Wire Line
+	5000 2900 5000 1950
+Connection ~ 5000 1950
 $EndSCHEMATC
