@@ -73,7 +73,7 @@ U 1 1 5792372C
 P 7100 4300
 F 0 "AFF1" H 7100 4850 50  0000 C CNN
 F 1 "SBA23-11EGWA" H 7100 3850 50  0000 C CNN
-F 2 "" H 7100 4300 50  0001 C CNN
+F 2 "redgreen-segment:7SegmentLED_SBA23-11EGWA" H 7100 4300 50  0001 C CNN
 F 3 "" H 7100 4300 50  0000 C CNN
 	1    7100 4300
 	1    0    0    -1  
@@ -215,7 +215,7 @@ U 1 1 57924519
 P 8650 2400
 F 0 "R8" V 8730 2400 50  0000 C CNN
 F 1 "820" V 8650 2400 50  0000 C CNN
-F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM7mm" V 8580 2400 50  0001 C CNN
+F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM15mm" V 8580 2400 50  0001 C CNN
 F 3 "" H 8650 2400 50  0000 C CNN
 	1    8650 2400
 	1    0    0    -1  
@@ -330,7 +330,7 @@ U 1 1 57924D26
 P 4350 3500
 F 0 "Y1" H 4350 3600 50  0000 C CNN
 F 1 "16MHz" H 4350 3400 50  0000 C CNN
-F 2 "" H 4350 3500 50  0001 C CNN
+F 2 "Crystals:Crystal_HC49-U_Vertical" H 4350 3500 50  0001 C CNN
 F 3 "" H 4350 3500 50  0000 C CNN
 	1    4350 3500
 	1    0    0    -1  
@@ -353,7 +353,7 @@ U 1 1 579250BE
 P 4100 3650
 F 0 "C5" H 4110 3720 50  0000 L CNN
 F 1 "22p" H 4110 3570 50  0000 L CNN
-F 2 "" H 4100 3650 50  0001 C CNN
+F 2 "Capacitors_SMD:C_0805_HandSoldering" H 4100 3650 50  0001 C CNN
 F 3 "" H 4100 3650 50  0000 C CNN
 	1    4100 3650
 	1    0    0    -1  
@@ -364,7 +364,7 @@ U 1 1 57925152
 P 4600 3650
 F 0 "C6" H 4610 3720 50  0000 L CNN
 F 1 "22p" H 4610 3570 50  0000 L CNN
-F 2 "" H 4600 3650 50  0001 C CNN
+F 2 "Capacitors_SMD:C_0805_HandSoldering" H 4600 3650 50  0001 C CNN
 F 3 "" H 4600 3650 50  0000 C CNN
 	1    4600 3650
 	1    0    0    -1  
@@ -413,7 +413,7 @@ U 1 1 57936A5D
 P 1100 3300
 F 0 "C2" H 1110 3370 50  0000 L CNN
 F 1 "100n" H 1110 3220 50  0000 L CNN
-F 2 "" H 1100 3300 50  0001 C CNN
+F 2 "Capacitors_SMD:C_0805_HandSoldering" H 1100 3300 50  0001 C CNN
 F 3 "" H 1100 3300 50  0000 C CNN
 	1    1100 3300
 	0    -1   -1   0   
@@ -439,7 +439,7 @@ U 1 1 57936CA5
 P 1100 2700
 F 0 "C1" H 1110 2770 50  0000 L CNN
 F 1 "100n" H 1110 2620 50  0000 L CNN
-F 2 "" H 1100 2700 50  0001 C CNN
+F 2 "Capacitors_SMD:C_0805_HandSoldering" H 1100 2700 50  0001 C CNN
 F 3 "" H 1100 2700 50  0000 C CNN
 	1    1100 2700
 	0    -1   -1   0   
@@ -527,7 +527,7 @@ U 1 1 57937668
 P 3900 3950
 F 0 "R4" H 3930 3970 50  0000 L CNN
 F 1 "10k" H 3930 3910 50  0000 L CNN
-F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM7mm" H 3900 3950 50  0001 C CNN
+F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM15mm" H 3900 3950 50  0001 C CNN
 F 3 "" H 3900 3950 50  0000 C CNN
 	1    3900 3950
 	1    0    0    -1  
@@ -542,7 +542,7 @@ U 1 1 57937892
 P 3900 4600
 F 0 "C4" H 3910 4670 50  0000 L CNN
 F 1 "100n" H 3910 4520 50  0000 L CNN
-F 2 "" H 3900 4600 50  0001 C CNN
+F 2 "Capacitors_SMD:C_0805_HandSoldering" H 3900 4600 50  0001 C CNN
 F 3 "" H 3900 4600 50  0000 C CNN
 	1    3900 4600
 	1    0    0    -1  
@@ -566,7 +566,7 @@ U 1 1 57937B17
 P 5250 4400
 F 0 "R6" H 5280 4420 50  0000 L CNN
 F 1 "10k" H 5280 4360 50  0000 L CNN
-F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM7mm" H 5250 4400 50  0001 C CNN
+F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM15mm" H 5250 4400 50  0001 C CNN
 F 3 "" H 5250 4400 50  0000 C CNN
 	1    5250 4400
 	0    1    1    0   
@@ -577,7 +577,7 @@ U 1 1 57937BBD
 P 5250 4650
 F 0 "R7" H 5280 4670 50  0000 L CNN
 F 1 "10k" H 5280 4610 50  0000 L CNN
-F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM7mm" H 5250 4650 50  0001 C CNN
+F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM15mm" H 5250 4650 50  0001 C CNN
 F 3 "" H 5250 4650 50  0000 C CNN
 	1    5250 4650
 	0    1    1    0   
@@ -621,7 +621,7 @@ U 1 1 57937FF3
 P 4150 5100
 F 0 "R5" H 4180 5120 50  0000 L CNN
 F 1 "10k" H 4180 5060 50  0000 L CNN
-F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM7mm" H 4150 5100 50  0001 C CNN
+F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM15mm" H 4150 5100 50  0001 C CNN
 F 3 "" H 4150 5100 50  0000 C CNN
 	1    4150 5100
 	1    0    0    -1  
@@ -682,7 +682,7 @@ U 1 1 5793871C
 P 2750 1500
 F 0 "R2" H 2780 1520 50  0000 L CNN
 F 1 "220" H 2780 1460 50  0000 L CNN
-F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM7mm" H 2750 1500 50  0001 C CNN
+F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM15mm" H 2750 1500 50  0001 C CNN
 F 3 "" H 2750 1500 50  0000 C CNN
 	1    2750 1500
 	1    0    0    -1  
@@ -693,7 +693,7 @@ U 1 1 57938960
 P 2650 1850
 F 0 "R1" H 2680 1870 50  0000 L CNN
 F 1 "680" H 2680 1810 50  0000 L CNN
-F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM7mm" H 2650 1850 50  0001 C CNN
+F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM15mm" H 2650 1850 50  0001 C CNN
 F 3 "" H 2650 1850 50  0000 C CNN
 	1    2650 1850
 	-1   0    0    1   
@@ -704,7 +704,7 @@ U 1 1 579389C5
 P 2850 1850
 F 0 "R3" H 2880 1870 50  0000 L CNN
 F 1 "820" H 2880 1810 50  0000 L CNN
-F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM7mm" H 2850 1850 50  0001 C CNN
+F 2 "Resistors_ThroughHole:Resistor_Horizontal_RM15mm" H 2850 1850 50  0001 C CNN
 F 3 "" H 2850 1850 50  0000 C CNN
 	1    2850 1850
 	1    0    0    -1  
@@ -741,7 +741,7 @@ U 1 1 579391B8
 P 3300 1500
 F 0 "C3" H 3310 1570 50  0000 L CNN
 F 1 "47u" H 3310 1420 50  0000 L CNN
-F 2 "" H 3300 1500 50  0001 C CNN
+F 2 "Capacitors_ThroughHole:C_Radial_D5_L11_P2" H 3300 1500 50  0001 C CNN
 F 3 "" H 3300 1500 50  0000 C CNN
 	1    3300 1500
 	1    0    0    -1  
