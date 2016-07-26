@@ -246,7 +246,7 @@ F 1 "ESP8266" H 4650 4200 50  0000 C CNN
 F 2 "Socket_Strips:Socket_Strip_Straight_2x04" H 4650 3250 50  0001 C CNN
 F 3 "" H 4650 3250 50  0000 C CNN
 	1    4650 4450
-	1    0    0    -1  
+	1    0    0    1   
 $EndComp
 $Comp
 L VCC #PWR01
