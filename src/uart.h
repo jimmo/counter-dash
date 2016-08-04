@@ -1,13 +1,15 @@
 #include <stdint.h>
 
 #include <avr/io.h>
+#include <util/delay.h>
 
 void
 uart_init(const uint32_t baud, const bool double_speed) {
-  UBRR0 = 51;
+  UBRR0 = 12;
 
   UCSR0C = ((1 << UCSZ01) | (1 << UCSZ00));
   UCSR0B = ((1 << TXEN0) | (1 << RXEN0));
+  UCSR0A = (1 << U2X0);
 
   DDRD |= (1 << 1);
   PORTD |= (1 << 0);
@@ -49,8 +51,16 @@ uart_write(const char b) {
 
 int16_t
 uart_read() {
-  if (!(uart_available()))
+  if (!uart_available())
     return -1;
+
+  return UDR0;
+}
+
+uint8_t
+uart_read_blocking() {
+  while (!uart_available()) {
+  }
 
   return UDR0;
 }

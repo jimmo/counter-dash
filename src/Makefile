@@ -6,6 +6,7 @@ TARGET       = main
 SRC          = $(TARGET).cpp
 CC_FLAGS     =
 LD_FLAGS     =
+CPP_STANDARD = c++11
 AVRDUDE_PROGRAMMER = dragon_isp
 AVRDUDE_FLAGS =
 
