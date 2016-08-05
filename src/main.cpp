@@ -288,6 +288,12 @@ public:
     return s;
   }
 
+  int join(const char* ssid, const char* password) {
+    char at[100];
+    sprintf(at, "AT+CWJAP_DEF=\"%s\",\"%s\"\r\n", ssid, password);
+    return send_cmd(at);
+  }
+
   int sleep() {
     return send_cmd_p(PSTR("AT+SLEEP=2\r\n"));
   }
@@ -488,10 +494,16 @@ int main() {
     _delay_ms(50);
   }
 
-  uart_init(9600, false);
+  uart_init(76800, false);
 
   esp8266_t esp;
   esp.reset();
+
+  _delay_ms(2000);
+
+  esp.join("ssid", "password");
+
+  _delay_ms(2000);
 
   // Each iteration of this loop gets one value from the server.
   while (true) {
@@ -504,7 +516,7 @@ int main() {
     }
 
     // TCP connect.
-    esp8266_t::socket_t* s = esp.connect("192.168.1.174", 8000);
+    esp8266_t::socket_t* s = esp.connect("192.168.0.15", 8000);
     if (!s) {
       esp.sleep();
       sleep(5000);
@@ -517,7 +529,7 @@ int main() {
     }
 
     s->send("GET /dashboard HTTP/1.1\r\n");
-    s->send("Host: 192.168.1.174\r\n");
+    s->send("Host: 192.168.0.15:8000\r\n");
     s->send("\r\n");
 
     char buf[256];
