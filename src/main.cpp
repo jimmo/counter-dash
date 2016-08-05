@@ -175,19 +175,6 @@ bool match_suffix(const char* a, const char* b) {
   return strncmp(a-strlen(b), b, strlen(b)) == 0;
 }
 
-void flash(uint8_t index) {
-  dots[index] = 1 - dots[index];
-  update();
-}
-
-void set_dot(uint8_t index) {
-  if (index > 8) {
-    memset(dots, 0, NUM_DIGITS);
-  }
-  dots[index] = 1;
-  update();
-}
-
 class esp8266_t {
 public:
   class socket_t {
@@ -489,13 +476,22 @@ int main() {
   color_init();
   color(1);
 
-  set_dot(1);
-  update();
+  for (int i = 0 ; i < NUM_DIGITS; ++i) {
+    dots[i] = 1;
+    update();
+    _delay_ms(50);
+  }
+
+  for (int i = 0 ; i < NUM_DIGITS; ++i) {
+    dots[i] = 0;
+    update();
+    _delay_ms(50);
+  }
 
   uart_init(9600, false);
 
   esp8266_t esp;
-  //esp.reset();
+  esp.reset();
 
   // Each iteration of this loop gets one value from the server.
   while (true) {
@@ -515,7 +511,10 @@ int main() {
       continue;
     }
 
-    set_dot(9);
+    for (int i = 0 ; i < NUM_DIGITS; ++i) {
+      dots[NUM_DIGITS-1] = 1;
+      update();
+    }
 
     s->send("GET /dashboard HTTP/1.1\r\n");
     s->send("Host: 192.168.1.174\r\n");
@@ -551,7 +550,11 @@ int main() {
     }
 
     s->close();
-    update();
+
+    for (int i = 0 ; i < NUM_DIGITS; ++i) {
+      dots[NUM_DIGITS-1] = 0;
+      update();
+    }
 
     // Success. Go to sleep for 10s.
     esp.sleep();
