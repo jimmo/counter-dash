@@ -269,8 +269,12 @@ public:
     }
   }
 
-  socket_t* connect(const char* host, int port) {
+  socket_t* connect(const char* mode, const char* host, int port) {
     if (send_cmd_p(PSTR("AT+CIPMUX=1\r\n")) != CMD_OK) {
+      return nullptr;
+    }
+
+    if (send_cmd_p(PSTR("AT+CIPSSLSIZE=4096\r\n")) != CMD_OK) {
       return nullptr;
     }
 
@@ -280,7 +284,7 @@ public:
     }
     s->in_use_ = true;
     char at[100];
-    sprintf(at, "AT+CIPSTART=%d,\"TCP\",\"%s\",%d\r\n", s->n_, host, port);
+    sprintf(at, "AT+CIPSTART=%d,\"%s\",\"%s\",%d\r\n", s->n_, mode, host, port);
     if (send_cmd(at) != CMD_OK) {
       s->in_use_ = false;
       return nullptr;
@@ -410,6 +414,10 @@ uint32_t prev_ticks[2] = { 0, 0 };
 uint32_t current[2] = { 0, 0 };
 uint32_t speed[2] = { 0, 0 };
 
+const int TICKS_MS = 100;
+const int TICKS_PER_UPDATE = 20;
+const int TICKS_PER_COLOR_CHANGE = 100;
+
 uint32_t strtou32(const char* s) {
   uint32_t x = 0;
   while (*s) {
@@ -434,40 +442,48 @@ void u32tostr(char* s, uint8_t len, uint32_t x) {
   } while (len != 0);
 }
 
-void process_line(char* line, uint16_t len, uint16_t num) {
+bool process_line(char* line, uint16_t len, uint16_t num) {
+  for (uint16_t i = 0; i < len; ++i) {
+    if (line[i] < '0' || line[i] > '9') {
+      return false;
+    }
+  }
+
   if (num >= 2) {
-    return;
+    return false;
   }
   if (num == num) {
     prev[num] = current[num];
     current[num] = strtou32(line);
     if (prev[num] != 0 && current[num] > prev[num]) {
-      speed[num] = (current[num] - prev[num]) / (ticks - prev_ticks[num]);
+      speed[num] = ((current[num] - prev[num]) * TICKS_PER_UPDATE) / (ticks - prev_ticks[num]);
     } else {
       speed[num] = 0;
     }
     prev_ticks[num] = ticks;
   }
+
+  return true;
 }
 
 void sleep(uint16_t ms) {
-  ms -= ms % 100;
+  ms -= ms % TICKS_MS;
   while (ms != 0) {
-    ms -= 100;
+    ms -= TICKS_MS;
     ++ticks;
-    if (ticks % 8 == 0) {
-      current[0] += speed[0] * 8;
-      current[1] += speed[1] * 8;
+    if (ticks % TICKS_PER_UPDATE == 0) {
+      current[0] += speed[0];
+      current[1] += speed[1];
       u32tostr(display, NUM_DIGITS, current[current_color]);
       update();
     }
-    if (ticks % 64 == 0) {
+    if (ticks % TICKS_PER_COLOR_CHANGE == 0) {
       current_color = 1 - current_color;
       color(current_color);
       u32tostr(display, NUM_DIGITS, current[current_color]);
       update();
     }
-    _delay_ms(100);
+    _delay_ms(TICKS_MS);
   }
 }
 
@@ -482,16 +498,18 @@ int main() {
   color_init();
   color(1);
 
-  for (int i = 0 ; i < NUM_DIGITS; ++i) {
-    dots[i] = 1;
-    update();
-    _delay_ms(50);
-  }
+  for (int j = 0; j < 2; ++j) {
+    for (int i = 0 ; i < NUM_DIGITS; ++i) {
+      dots[i] = 1;
+      update();
+      _delay_ms(50);
+    }
 
-  for (int i = 0 ; i < NUM_DIGITS; ++i) {
-    dots[i] = 0;
-    update();
-    _delay_ms(50);
+    for (int i = 0 ; i < NUM_DIGITS; ++i) {
+      dots[i] = 0;
+      update();
+      _delay_ms(50);
+    }
   }
 
   uart_init(76800, false);
@@ -499,11 +517,21 @@ int main() {
   esp8266_t esp;
   esp.reset();
 
+  dots[NUM_DIGITS-2] = 1;
+  update();
   _delay_ms(2000);
+  dots[NUM_DIGITS-1] = 1;
+  update();
 
   esp.join("ssid", "password");
 
+  dots[NUM_DIGITS-2] = 0;
+  update();
   _delay_ms(2000);
+  dots[NUM_DIGITS-1] = 0;
+  update();
+
+  _delay_ms(1000);
 
   // Each iteration of this loop gets one value from the server.
   while (true) {
@@ -515,21 +543,25 @@ int main() {
       }
     }
 
+    dots[NUM_DIGITS-2] = 1;
+    update();
+
     // TCP connect.
-    esp8266_t::socket_t* s = esp.connect("192.168.0.15", 8000);
+    esp8266_t::socket_t* s = esp.connect("TCP", "192.168.1.174", 8000);
     if (!s) {
+      dots[NUM_DIGITS-2] = 0;
+      update();
       esp.sleep();
       sleep(5000);
       continue;
     }
 
-    for (int i = 0 ; i < NUM_DIGITS; ++i) {
-      dots[NUM_DIGITS-1] = 1;
-      update();
-    }
+    dots[NUM_DIGITS-1] = 1;
+    update();
 
     s->send("GET /dashboard HTTP/1.1\r\n");
-    s->send("Host: 192.168.0.15:8000\r\n");
+    s->send("Host: 192.168.1.174:8000\r\n");
+    s->send("Connection: close\r\n");
     s->send("\r\n");
 
     char buf[256];
@@ -549,8 +581,9 @@ int main() {
 	    content = true;
 	  } else {
 	    if (content) {
-	      process_line(buf, i, l);
-	      ++l;
+	      if (process_line(buf, i, l)) {
+		++l;
+	      }
 	    }
 	  }
 	  i = 0;
@@ -563,14 +596,15 @@ int main() {
 
     s->close();
 
-    for (int i = 0 ; i < NUM_DIGITS; ++i) {
-      dots[NUM_DIGITS-1] = 0;
-      update();
-    }
+    dots[NUM_DIGITS-2] = 0;
+    dots[NUM_DIGITS-1] = 0;
+    update();
 
-    // Success. Go to sleep for 10s.
+    // Success. Go to sleep for 5m.
     esp.sleep();
-    sleep(10000);
+    for (int i = 0; i < 5*6; ++i) {
+      sleep(10000);
+    }
   }
 
   return 0;
