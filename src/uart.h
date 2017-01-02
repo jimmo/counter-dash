@@ -5,10 +5,10 @@
 
 void
 uart_init(const uint32_t baud, const bool double_speed) {
-  UBRR0 = 12;
+  UBRR0 = 103;//416;//207;//12;//51;//3;//8;//12;
 
   UCSR0C = ((1 << UCSZ01) | (1 << UCSZ00));
-  UCSR0B = ((1 << TXEN0) | (1 << RXEN0));
+  UCSR0B = ((1 << RXEN0) | (1 << TXEN0));
   UCSR0A = (1 << U2X0);
 
   DDRD |= (1 << 1);
